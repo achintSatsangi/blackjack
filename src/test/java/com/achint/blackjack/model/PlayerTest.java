@@ -47,7 +47,7 @@ class PlayerTest {
     }
 
     @Test
-    void should_not_show_blackjack_if_score_is_21() {
+    void should_player_not_show_blackjack_if_score_is_21() {
         Player player = Player.builder()
                 .name("john")
                 .cards(List.of(Card.builder()
@@ -65,7 +65,7 @@ class PlayerTest {
     }
 
     @Test
-    void should_draw_more_cards_if_score_is_less_than_17() {
+    void should_player_draw_more_cards_if_score_is_less_than_17() {
         Player player = Player.builder()
                 .name("john")
                 .cards(List.of(Card.builder()
@@ -78,11 +78,11 @@ class PlayerTest {
                                 .build()
                 )).build();
 
-        assertThat(player.shouldDrawMoreCards()).isTrue();
+        assertThat(player.shouldPlayerDrawMoreCards()).isTrue();
     }
 
     @Test
-    void should_not_draw_more_cards_if_score_is_17_or_higher() {
+    void should_player_not_draw_more_cards_if_score_is_17_or_higher() {
         Player player = Player.builder()
                 .name("john")
                 .cards(new ArrayList<>(Arrays.asList(Card.builder()
@@ -96,14 +96,51 @@ class PlayerTest {
                 )))
                 .build();
 
-        assertThat(player.shouldDrawMoreCards()).isFalse();
+        assertThat(player.shouldPlayerDrawMoreCards()).isFalse();
 
         player.getCards().add(Card.builder()
                 .suit(Suit.HEARTS)
                 .rank(Rank.TWO)
                 .build());
 
-        assertThat(player.shouldDrawMoreCards()).isFalse();
+        assertThat(player.shouldPlayerDrawMoreCards()).isFalse();
+    }
+
+    @Test
+    void should_dealer_draw_more_cards_if_score_is_lower_or_same_as_the_player() {
+        Player dealer = Player.builder()
+                .name("dealer")
+                .cards(new ArrayList<>(Arrays.asList(Card.builder()
+                                .suit(Suit.SPADES)
+                                .rank(Rank.KING)
+                                .build(),
+                        Card.builder()
+                                .suit(Suit.HEARTS)
+                                .rank(Rank.SEVEN)
+                                .build()
+                )))
+                .build();
+
+        assertThat(dealer.shouldDealerDrawMoreCards(17)).isTrue();
+        assertThat(dealer.shouldDealerDrawMoreCards(19)).isTrue();
+    }
+
+    @Test
+    void should_dealer_not_draw_more_cards_if_dealer_score_higher_than_other_player() {
+        Player dealer = Player.builder()
+                .name("dealer")
+                .cards(new ArrayList<>(Arrays.asList(Card.builder()
+                                .suit(Suit.SPADES)
+                                .rank(Rank.KING)
+                                .build(),
+                        Card.builder()
+                                .suit(Suit.HEARTS)
+                                .rank(Rank.SEVEN)
+                                .build()
+                )))
+                .build();
+
+        assertThat(dealer.shouldDealerDrawMoreCards(15)).isFalse();
     }
 
 }

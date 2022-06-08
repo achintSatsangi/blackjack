@@ -18,7 +18,6 @@ class DeckTest {
     @Test
     void should_populate_deck_from_valid_file() throws IOException {
         String path = this.getClass().getResource("complete_shuffled_deck.txt").getPath();
-        System.out.println(path);
         Deck deck = new Deck(path);
         assertThat(deck.getCards()).hasSize(52)
                 .startsWith(Card.builder()

@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Builder
@@ -27,9 +28,19 @@ public class Player {
         return this.getHandScore() == 21;
     }
 
-    public boolean shouldDrawMoreCards() {
+    public boolean shouldPlayerDrawMoreCards() {
         return this.getHandScore() < 17;
     }
 
+    public boolean shouldDealerDrawMoreCards(int otherPlayScore) {
+        return this.getHandScore() <= otherPlayScore;
+    }
+
+    @Override
+    public String toString() {
+        return name + ": " + cards.stream()
+                .map(Card::toString)
+                .collect(Collectors.joining(", "));
+    }
 }
 
