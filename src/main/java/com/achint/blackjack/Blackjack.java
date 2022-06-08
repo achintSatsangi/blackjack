@@ -4,6 +4,7 @@ import com.achint.blackjack.model.Deck;
 import com.achint.blackjack.model.Player;
 import lombok.Getter;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Getter
@@ -25,13 +26,13 @@ public class Blackjack {
 
         this.initializeTheGame();
         this.performInitialChecks();
-        while (!this.isFinished() && this.player.shouldPlayerDrawMoreCards()) {
+        while (this.isNotFinished() && this.player.shouldPlayerDrawMoreCards()) {
             this.playerDrawsTheTopCard();
         }
-        while (!this.isFinished() && this.dealer.shouldDealerDrawMoreCards(this.player.getHandScore())) {
+        while (this.isNotFinished() && this.dealer.shouldDealerDrawMoreCards(this.player.getHandScore())) {
             this.dealerDrawsTheTopCard();
         }
-        if(!this.isFinished()) {
+        if(this.isNotFinished()) {
             this.performFinalCheck();
         }
     }
@@ -51,8 +52,8 @@ public class Blackjack {
         dealerDrawsTheTopCard();
     }
 
-    private boolean isFinished() {
-        return nonNull(winner);
+    private boolean isNotFinished() {
+        return isNull(winner);
     }
 
     private void performInitialChecks() {

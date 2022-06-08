@@ -34,7 +34,7 @@ public class Deck {
         String fileContent = Files.readString(Paths.get(filePath));
         List<Card> cardList = stream(fileContent.split(","))
                 .map(s -> new Card(s.trim()))
-                .toList();
+                .collect(toList());
         if (cardList.size() != 52) {
             throw new IllegalArgumentException(format("File [%s] does not contain 52 cards", filePath));
         } else if (!cardList.containsAll(new Deck().getCards())) {

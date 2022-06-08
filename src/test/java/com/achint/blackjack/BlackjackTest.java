@@ -5,11 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static com.achint.blackjack.Play.NEW_LINE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class BlackjackTest {
-
-    static final String NEW_LINE = System.getProperty("line.separator");
 
     @Test
     void should_declare_player_as_winner_if_both_start_with_blackjack() {
